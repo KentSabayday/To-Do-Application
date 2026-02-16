@@ -128,31 +128,45 @@ listEl.addEventListener("click", (e) => {
 
   }
 
-});
+  const completeBtn = e.target.closest("[data-action='complete']");
 
- 
+  if (completeBtn) {
 
-listEl.addEventListener("change", (e) => {
+    const id = completeBtn.dataset.id;
 
-  const checkbox = e.target.closest("input[type='checkbox'][data-id]");
+    const todo = todos.find((t) => t.id === id);
 
-  if (!checkbox) return;
+    if (todo) {
 
- 
+      todo.completed = true;
 
-  const id = checkbox.dataset.id;
+      saveTodos(todos);
 
-  const todo = todos.find((t) => t.id === id);
+      render();
 
-  if (!todo) return;
+    }
 
- 
+  }
 
-  todo.completed = checkbox.checked;
+  const activeBtn = e.target.closest("[data-action='active']");
 
-  saveTodos(todos);
+  if (activeBtn) {
 
-  render();
+    const id = activeBtn.dataset.id;
+
+    const todo = todos.find((t) => t.id === id);
+
+    if (todo) {
+
+      todo.completed = false;
+
+      saveTodos(todos);
+
+      render();
+
+    }
+
+  }
 
 });
 
@@ -176,7 +190,7 @@ function render() {
 
   const remaining = todos.filter((t) => !t.completed).length;
 
-  countEl.textContent = ` remainingitem {remaining === 1 ? "" : "s"} left`;
+  countEl.textContent = `${remaining} remaining item${remaining === 1 ? "" : "s"} left`;
 
  
 
@@ -198,17 +212,27 @@ function renderTodoItem(todo) {
 
  
 
-  const checkbox = document.createElement("input");
+  const statusBtn = document.createElement("button");
 
-  checkbox.type = "checkbox";
+  statusBtn.type = "button";
 
-  checkbox.className = "checkbox";
+  statusBtn.className = "status-btn";
 
-  checkbox.checked = todo.completed;
+  if (todo.completed) {
 
-  checkbox.setAttribute("aria-label", "Mark as complete");
+    statusBtn.textContent = "Mark Active";
 
-  checkbox.dataset.id = todo.id;
+    statusBtn.dataset.action = "active";
+
+  } else {
+
+    statusBtn.textContent = "Mark Complete";
+
+    statusBtn.dataset.action = "complete";
+
+  }
+
+  statusBtn.dataset.id = todo.id;
 
  
 
@@ -234,7 +258,7 @@ function renderTodoItem(todo) {
 
  
 
-  li.appendChild(checkbox);
+  li.appendChild(statusBtn);
 
   li.appendChild(p);
 

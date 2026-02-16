@@ -280,6 +280,24 @@ button:hover { background: rgba(122,167,255,0.28); }
 
  
 
+.status-btn {
+
+  border-color: rgba(122,167,255,0.5);
+
+  background: rgba(122,167,255,0.15);
+
+  color: var(--accent);
+
+  font-size: 0.875rem;
+
+  padding: 6px 10px;
+
+}
+
+.status-btn:hover { background: rgba(122,167,255,0.25); }
+
+ 
+
 .sr-only {
 
   position: absolute;
